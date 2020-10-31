@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -12,7 +13,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.viewCount = (TextView) this.findViewById(R.id.txtCounter);
+        this.viewCount = this.findViewById(R.id.txtCounter);
+        this.txtStep = this.findViewById(R.id.txtStep);
 
         if(null != savedInstanceState) {
             this.count = savedInstanceState.getInt("count", 0);
@@ -20,12 +22,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private int getStep(){
+         try {
+             return Integer.valueOf(this.txtStep.getText().toString());
+         }
+         catch (Exception e){
+             return 0;
+        }
+    }
     public void increase(View view){
-        viewCount.setText(String.valueOf(++this.count));
+        this.count += this.getStep();
+        viewCount.setText(String.valueOf(this.count));
     }
 
     public void decrease(View view){
-        viewCount.setText(String.valueOf(--this.count));
+        this.count -= this.getStep();
+        viewCount.setText(String.valueOf(this.count));
     }
 
     @Override
@@ -35,4 +47,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private int count=0;
     private TextView viewCount;
+    private EditText txtStep;
+
 }
